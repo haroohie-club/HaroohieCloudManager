@@ -12,5 +12,6 @@ public class Program
             new UpdateWeblateCommand(),
             new UploadToStorageCommand(),
         };
+        commands.Run(args);
     }
 }
