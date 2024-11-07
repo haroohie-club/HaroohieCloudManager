@@ -29,6 +29,8 @@ public class UpdateWeblateCommand : Command
 
     public async Task<int> InvokeAsync(IEnumerable<string> arguments)
     {
+        Options.Parse(arguments);
+        
         HttpClient client = new() { BaseAddress = new(_projectUri) };
         client.DefaultRequestHeaders.Authorization = new("Token", _apiKey);
         try
