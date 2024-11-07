@@ -10,12 +10,12 @@ using Mono.Options;
 
 namespace HaroohieCloudManager;
 
-public class UploadToStorageCommand : Command
+public class UploadPatchesCommand : Command
 {
     private string _spacesKey, _spacesSecret, _spacesUrl, _spacesName, _language, _game, _version, _webhookUri;
     private string[] _patchesList;
     
-    public UploadToStorageCommand() : base("upload-to-storage", "Uplaods files to Digital Ocean storage and optionally posts them to Discord")
+    public UploadPatchesCommand() : base("upload-patches", "Uplaods patches to Digital Ocean storage and optionally posts them to Discord")
     {
         Options = new()
         {

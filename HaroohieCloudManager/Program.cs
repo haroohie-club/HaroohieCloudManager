@@ -9,8 +9,9 @@ public class Program
         CommandSet commands = new("HaroohieCloudManager")
         {
             new CheckCorsProxyCommand(),
+            new DownloadRomCommand(),
             new UpdateWeblateCommand(),
-            new UploadToStorageCommand(),
+            new UploadPatchesCommand(),
         };
         commands.Run(args);
     }

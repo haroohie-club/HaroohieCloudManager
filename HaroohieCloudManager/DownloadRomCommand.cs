@@ -1,4 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
@@ -37,6 +42,22 @@ public class DownloadRomCommand : Command
 
         await (await client.GetObjectAsync(_spacesName, _romKey))
             .WriteResponseStreamToFileAsync(_romPath, append: false, new());
+
+        if (Path.GetExtension(_romPath).Equals(".zip", StringComparison.OrdinalIgnoreCase))
+        {
+            string romName = string.Empty;
+            using FileStream zipStream = File.OpenRead(_romPath);
+            {
+                using ZipArchive zip = new(zipStream);
+                romName = zip.Entries[0].Name;
+                zip.ExtractToDirectory(Path.GetDirectoryName(_romPath)!);
+            }
+            File.Delete(_romPath);
+            _romPath = Path.Combine(Path.GetDirectoryName(_romPath), romName);
+        }
+        
+        using FileStream romStream = File.OpenRead(_romPath);
+        CommandSet.Out.WriteLine($"Original ROM MD5 Hash: {string.Join("", MD5.HashData(romStream).Select(b => $"{b:X2}"))}");
         
         return 0;
     }
