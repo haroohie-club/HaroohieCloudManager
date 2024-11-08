@@ -6,14 +6,13 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Amazon.S3;
-using Amazon.S3.Model;
 using Mono.Options;
 
 namespace HaroohieCloudManager;
 
 public class DownloadRomCommand : Command
 {
-    private string _spacesKey, _spacesSecret, _spacesUrl, _spacesName, _romKey, _romPath;
+    private string _spacesKey = string.Empty, _spacesSecret = string.Empty, _spacesUrl = string.Empty, _spacesName = string.Empty, _romKey = string.Empty, _romPath = string.Empty;
     
     public DownloadRomCommand() : base("download-rom", "Downloads a ROM from Digital Ocean storage")
     {

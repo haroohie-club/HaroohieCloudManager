@@ -10,7 +10,7 @@ namespace HaroohieCloudManager;
 
 public class CheckCorsProxyCommand : Command
 {
-    private string _corsOrigin, _corsUri, _discordWebhookUri;
+    private string _corsOrigin = string.Empty, _corsUri = string.Empty, _discordWebhookUri = string.Empty;
     
     public CheckCorsProxyCommand() : base("check-cors-proxy", "Checks to see if the CORS proxy is up and posts notif to Discord if not")
     {

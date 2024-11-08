@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Mono.Options;
@@ -11,7 +10,7 @@ namespace HaroohieCloudManager;
 
 public class UpdateWeblateCommand : Command
 {
-    private string _apiKey, _projectUri;
+    private string _apiKey = string.Empty, _projectUri = string.Empty;
     
     public UpdateWeblateCommand() : base("update-weblate", "Commits and pushes a Weblate project")
     {

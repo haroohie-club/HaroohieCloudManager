@@ -12,8 +12,8 @@ namespace HaroohieCloudManager;
 
 public class UploadPatchesCommand : Command
 {
-    private string _spacesKey, _spacesSecret, _spacesUrl, _spacesName, _language, _game, _version, _webhookUri;
-    private string[] _patchesList;
+    private string _spacesKey = string.Empty, _spacesSecret = string.Empty, _spacesUrl = string.Empty, _spacesName = string.Empty, _language = string.Empty, _game = string.Empty, _version = string.Empty, _webhookUri = string.Empty;
+    private string[] _patchesList = [];
     
     public UploadPatchesCommand() : base("upload-patches", "Uplaods patches to Digital Ocean storage and optionally posts them to Discord")
     {
