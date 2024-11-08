@@ -52,7 +52,7 @@ public class DownloadRomCommand : Command
                 zip.ExtractToDirectory(Path.GetDirectoryName(_romPath)!);
             }
             File.Delete(_romPath);
-            _romPath = Path.Combine(Path.GetDirectoryName(_romPath), romName);
+            _romPath = Path.Combine(Path.GetDirectoryName(_romPath)!, romName);
         }
         
         using FileStream romStream = File.OpenRead(_romPath);
