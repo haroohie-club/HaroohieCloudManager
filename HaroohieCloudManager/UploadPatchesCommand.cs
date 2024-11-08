@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -54,7 +55,7 @@ public class UploadPatchesCommand : Command
             PutObjectRequest patchRequest = new() { BucketName = _spacesName, Key = key, FilePath = path };
             await client.PutObjectAsync(patchRequest);
             
-            GetPreSignedUrlRequest patchUrlRequest = new() { BucketName = _spacesName, Key = key };
+            GetPreSignedUrlRequest patchUrlRequest = new() { BucketName = _spacesName, Key = key, Expires = DateTimeOffset.UtcNow.AddMonths(6).DateTime };
             string url = await client.GetPreSignedURLAsync(patchUrlRequest);
             patches.Add(new(title, url));
         }
