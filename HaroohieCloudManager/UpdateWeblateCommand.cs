@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -26,34 +27,36 @@ public class UpdateWeblateCommand : Command
         return InvokeAsync(arguments).GetAwaiter().GetResult();
     }
 
-    public async Task<int> InvokeAsync(IEnumerable<string> arguments)
+    private async Task<int> InvokeAsync(IEnumerable<string> arguments)
     {
         Options.Parse(arguments);
         
-        HttpClient client = new() { BaseAddress = new(_projectUri) };
+        HttpClient client = new();
         client.DefaultRequestHeaders.Authorization = new("Token", _apiKey);
         try
         {
             HttpContent commitContent = new StringContent("{ \"operation\": \"commit\" }", Encoding.UTF8,
                 new MediaTypeHeaderValue("application/json"));
-            HttpResponseMessage commitResponse = await client.PostAsync(new Uri("repository"), commitContent);
+            HttpResponseMessage commitResponse = await client.PostAsync(new Uri(new(_projectUri), "repository/"), commitContent);
             commitResponse.EnsureSuccessStatusCode();
         }
         catch (HttpRequestException ex)
         {
-            CommandSet.Out.WriteLine($"Failed to commit Weblate ({ex.StatusCode}): {ex.Message})");
+            CommandSet.Out.WriteLine($"Failed to commit Weblate ({ex.StatusCode}): {ex.Message}");
         }
 
+        await Task.Delay(TimeSpan.FromSeconds(3));
+        
         try
         {
             HttpContent pushContent = new StringContent("{ \"operation\": \"push\" }", Encoding.UTF8,
                 new MediaTypeHeaderValue("application/json"));
-            HttpResponseMessage pushResponse = await client.PutAsync(new Uri("repository"), pushContent);
+            HttpResponseMessage pushResponse = await client.PostAsync(new Uri(new(_projectUri), "repository/"), pushContent);
             pushResponse.EnsureSuccessStatusCode();
         }
         catch (HttpRequestException ex)
         {
-            CommandSet.Out.WriteLine($"Failed to push Weblate ({ex.StatusCode}): {ex.Message})");
+            CommandSet.Out.WriteLine($"Failed to push Weblate ({ex.StatusCode}): {ex.Message}");
         }
         
         CommandSet.Out.WriteLine("Successfully updated Weblate repository.");
