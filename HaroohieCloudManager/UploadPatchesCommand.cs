@@ -27,7 +27,7 @@ public class UploadPatchesCommand : Command
             { "g|game=", "The ID of the game the patch should be uploaded for", g => _game = g },
             { "v|version=", "The patch version being uploaded", v => _version = v },
             { "l|language=", "The language of the current patch set", l => _language = l },
-            { "p|patches=", "A comma-separated list of patch files to upload (in the form of \"title:path\")", p => _patchesList = p.Split(',') },
+            { "p|patches=", "A semicolon-separated list of patch files to upload (in the form of \"title:path\")", p => _patchesList = p.Split(';') },
             { "w|webhook=", "Discord webhook URI to post patches to", w => _webhookUri = w },
         };
     }
