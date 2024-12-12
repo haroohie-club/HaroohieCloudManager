@@ -19,7 +19,7 @@ jobs:
     inputs:
       command: 'run'
       projects: HaroohieCloudManager/HaroohieCloudManager.csproj
-      arguments: '-- check-cors-proxy -o "https://haroohie.club" -d "$(DiscordWebhook)" -c "https://cors.haroohie.club/https://github.com/haroohie-club/ChokuretsuTranslationRelease/releases/download/en-v0.6/chokuretsu-patch-en-v0.6-subbedoped-voicesubs.xdelta"'
+      arguments: '-- check-cors-proxy -o "https://haroohie.club" -d "$(DiscordWebhook)" -c "https://cors.haroohie.club/https://github.com/haroohie-club/ChokuretsuTranslationRelease/releases/download/zh-hans-v0.1/chokuretsu-patch-zh-hans-v0.1.xdelta"'
     displayName: Check CORS proxy
   displayName: Check CORS proxy
 - job:
