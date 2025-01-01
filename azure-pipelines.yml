@@ -40,3 +40,12 @@ jobs:
       arguments: '-- update-weblate -k $(WeblateApiKey) -p https://weblate.haroohie.club/api/projects/suzumiya-haruhi-no-heiretsu/'
     displayName: Update Heiretsu Weblate
   displayName: Update Heiretsu Weblate
+- job:  
+  steps:
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'run'
+      projects: HaroohieCloudManager/HaroohieCloudManager.csproj
+      arguments: '-- update-weblate -k $(WeblateApiKey) -p https://weblate.haroohie.club/api/projects/suzumiya-haruhi-no-gekidou/'
+    displayName: Update Gekidou Weblate
+  displayName: Update Gekidou Weblate
