@@ -10,6 +10,7 @@ public class Program
         {
             new CheckCorsProxyCommand(),
             new DownloadRomCommand(),
+            new GenerateBuildMatrixCommand(),
             new UpdateWeblateCommand(),
             new UploadPatchesCommand(),
         };

@@ -4,5 +4,6 @@ This is a simple CLI that is used for managing various "cloud" operations in our
 Specifically it can:
 * Post patches (and other files) to Digital Ocean storage (and send a Discord message linking to them)
 * Check if a CORS proxy is up (and send a Discord message if it's not)
+* Generate a matrix for the Haroohie build system to determine which patches to build
 * Commit and push Weblate projects
 * Download a ROM (or other file) from Digital Ocean storage (and unzip it if it's zipped)

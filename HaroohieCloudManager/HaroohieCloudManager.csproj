@@ -10,6 +10,7 @@
     <ItemGroup>
       <PackageReference Include="AWSSDK.S3" Version="4.0.0-preview.4" />
       <PackageReference Include="Discord.Net.Webhook" Version="3.16.0" />
+      <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
       <PackageReference Include="Mono.Options" Version="6.12.0.148" />
     </ItemGroup>
 
