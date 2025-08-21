@@ -87,6 +87,7 @@ public class GenerateBuildMatrixCommand : Command
             sb.Append(" ] }");
             
             File.WriteAllText($"{game}-matrix.json", sb.ToString());
+            Console.WriteLine($"{game}: {sb}\n\n");
         }
         
         return 0;
