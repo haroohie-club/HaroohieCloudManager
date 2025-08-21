@@ -10,7 +10,7 @@ namespace HaroohieCloudManager;
 
 public class GenerateBuildMatrixCommand : Command
 {
-    private string _pat = string.Empty, _commitsDir = string.Empty;
+    private string _pat = string.Empty, _commitsDir = string.Empty, _forceLanguage = string.Empty;
     private string[] _games = [];
     private string[][] _langCodes = [];
     private string[][] _extraProperties = [];
@@ -28,6 +28,7 @@ public class GenerateBuildMatrixCommand : Command
             },
             { "p|pat|github-pat=", "GitHub PAT for cloning private repos", p => _pat = p },
             { "c|commits-dir=", "Directory with most recent checked commit hashes", c => _commitsDir = c },
+            { "f|force=", "Build only this language and do not check for changes", f => _forceLanguage = f },
         };
     }
 
@@ -49,16 +50,27 @@ public class GenerateBuildMatrixCommand : Command
             string game = _games[i];
             string[] langs = _langCodes[i];
             string[] props = _extraProperties[i];
-            
-            string assetsDir = $"{game}TranslationAssets",
-                buildDir = $"{game}TranslationBuild",
-                stringsDir = $"{game}TranslationStrings",
-                utilityDir = $"{game}TranslationUtility";
 
-            Dictionary<string, bool> assetsChecks = CheckRepo(assetsDir, langs, options);
-            Dictionary<string, bool> buildChecks = CheckRepo(buildDir, [], options);
-            Dictionary<string, bool> stringsChecks = CheckRepo(stringsDir, langs, options);
-            Dictionary<string, bool> utilityChecks = CheckRepo(utilityDir, [], options);
+            Dictionary<string, bool> assetsChecks, buildChecks, stringsChecks, utilityChecks;
+            if (string.IsNullOrEmpty(_forceLanguage))
+            {
+                string assetsDir = $"{game}TranslationAssets",
+                    buildDir = $"{game}TranslationBuild",
+                    stringsDir = $"{game}TranslationStrings",
+                    utilityDir = $"{game}TranslationUtility";
+                
+                assetsChecks = CheckRepo(assetsDir, langs, options);
+                buildChecks = CheckRepo(buildDir, [], options);
+                stringsChecks = CheckRepo(stringsDir, langs, options);
+                utilityChecks = CheckRepo(utilityDir, [], options);
+            }
+            else
+            {
+                assetsChecks = [];
+                buildChecks = [];
+                stringsChecks = [];
+                utilityChecks = [];
+            }
 
             StringBuilder sb = new();
             sb.Append("{ \"language\": [ ");
@@ -66,7 +78,7 @@ public class GenerateBuildMatrixCommand : Command
             for (int j = 0; j < langs.Length; j++)
             {
                 string lang = langs[j];
-                if (assetsChecks[lang] || buildChecks["all"] || stringsChecks[lang] || utilityChecks["all"])
+                if ((_forceLanguage?.Equals(lang) ?? false) || assetsChecks[lang] || buildChecks["all"] || stringsChecks[lang] || utilityChecks["all"])
                 {
                     wrote = true;
                     sb.Append($" {{ \"code\": \"{lang}\", ");
@@ -80,14 +92,11 @@ public class GenerateBuildMatrixCommand : Command
                 }
             }
 
-            if (wrote)
-            {
-                sb.Remove(sb.Length - 2, 2);
-            }
+            sb.Remove(sb.Length - 2, 2);
             sb.Append(" ] }");
             
-            File.WriteAllText($"{game}-matrix.json", sb.ToString());
-            Console.WriteLine($"{game}: {sb}\n\n");
+            File.WriteAllText($"{game}-matrix.json", wrote ? sb.ToString() : string.Empty);
+            Console.WriteLine($"{game}: {(wrote ? sb.ToString() : string.Empty)}\n\n");
         }
         
         return 0;
