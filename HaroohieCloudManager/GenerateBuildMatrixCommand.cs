@@ -67,9 +67,14 @@ public class GenerateBuildMatrixCommand : Command
             else
             {
                 assetsChecks = [];
-                buildChecks = [];
+                buildChecks = new() { {"all", true } };
                 stringsChecks = [];
-                utilityChecks = [];
+                utilityChecks = new() { {"all", true } };
+                foreach (string lang in _langCodes[i])
+                {
+                    assetsChecks.Add(lang, _forceLanguage?.Equals(lang) ?? false);
+                    stringsChecks.Add(lang, _forceLanguage?.Equals(lang) ?? false);
+                }
             }
 
             StringBuilder sb = new();
@@ -78,7 +83,7 @@ public class GenerateBuildMatrixCommand : Command
             for (int j = 0; j < langs.Length; j++)
             {
                 string lang = langs[j];
-                if ((_forceLanguage?.Equals(lang) ?? false) || assetsChecks[lang] || buildChecks["all"] || stringsChecks[lang] || utilityChecks["all"])
+                if (assetsChecks[lang] || buildChecks["all"] || stringsChecks[lang] || utilityChecks["all"])
                 {
                     wrote = true;
                     sb.Append($" {{ \"code\": \"{lang}\", ");
