@@ -67,9 +67,9 @@ public class GenerateBuildMatrixCommand : Command
             else
             {
                 assetsChecks = [];
-                buildChecks = new() { {"all", true } };
+                buildChecks = new() { {"all", false } };
                 stringsChecks = [];
-                utilityChecks = new() { {"all", true } };
+                utilityChecks = new() { {"all", false } };
                 foreach (string lang in _langCodes[i])
                 {
                     assetsChecks.Add(lang, _forceLanguage?.Equals(lang) ?? false);
