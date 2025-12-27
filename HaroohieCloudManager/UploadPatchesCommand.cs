@@ -37,7 +37,7 @@ public class UploadPatchesCommand : Command
         return InvokeAsync(arguments).GetAwaiter().GetResult();
     }
 
-    public async Task<int> InvokeAsync(IEnumerable<string> arguments)
+    private async Task<int> InvokeAsync(IEnumerable<string> arguments)
     {
         Options.Parse(arguments);
 

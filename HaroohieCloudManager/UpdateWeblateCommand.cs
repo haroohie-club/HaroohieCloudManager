@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -42,7 +41,7 @@ public class UpdateWeblateCommand : Command
         }
         catch (HttpRequestException ex)
         {
-            CommandSet.Out.WriteLine($"Failed to commit Weblate ({ex.StatusCode}): {ex.Message}");
+            await CommandSet.Out.WriteLineAsync($"Failed to commit Weblate ({ex.StatusCode}): {ex.Message}");
         }
 
         await Task.Delay(TimeSpan.FromSeconds(3));
@@ -56,10 +55,10 @@ public class UpdateWeblateCommand : Command
         }
         catch (HttpRequestException ex)
         {
-            CommandSet.Out.WriteLine($"Failed to push Weblate ({ex.StatusCode}): {ex.Message}");
+            await CommandSet.Out.WriteLineAsync($"Failed to push Weblate ({ex.StatusCode}): {ex.Message}");
         }
         
-        CommandSet.Out.WriteLine("Successfully updated Weblate repository.");
+        await CommandSet.Out.WriteLineAsync("Successfully updated Weblate repository.");
         
         return 0;
     }

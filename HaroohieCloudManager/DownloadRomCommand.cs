@@ -44,19 +44,17 @@ public class DownloadRomCommand : Command
 
         if (Path.GetExtension(_romPath).Equals(".zip", StringComparison.OrdinalIgnoreCase))
         {
-            string romName = string.Empty;
-            using FileStream zipStream = File.OpenRead(_romPath);
-            {
-                using ZipArchive zip = new(zipStream);
-                romName = zip.Entries[0].Name;
-                zip.ExtractToDirectory(Path.GetDirectoryName(_romPath)!);
-            }
+            string romName;
+            await using FileStream zipStream = File.OpenRead(_romPath);
+            await using ZipArchive zip = new(zipStream);
+            romName = zip.Entries[0].Name;
+            await zip.ExtractToDirectoryAsync(Path.GetDirectoryName(_romPath)!);
             File.Delete(_romPath);
             _romPath = Path.Combine(Path.GetDirectoryName(_romPath)!, romName);
         }
-        
-        using FileStream romStream = File.OpenRead(_romPath);
-        CommandSet.Out.WriteLine($"Original ROM MD5 Hash: {string.Join("", MD5.HashData(romStream).Select(b => $"{b:X2}"))}");
+
+        await using FileStream romStream = File.OpenRead(_romPath);
+        await CommandSet.Out.WriteLineAsync($"Original ROM MD5 Hash: {string.Join("", (await MD5.HashDataAsync(romStream)).Select(b => $"{b:X2}"))}");
         
         return 0;
     }

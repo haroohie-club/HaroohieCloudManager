@@ -1,6 +1,6 @@
-﻿using System;
-using HaroohieCloudManager;
-using Mono.Options;
+﻿using Mono.Options;
+
+namespace HaroohieCloudManager;
 
 public class Program
 {

@@ -37,11 +37,11 @@ public class CheckCorsProxyCommand : Command
         {
             HttpResponseMessage httpResponse = await client.GetAsync(new Uri(_corsUri));
             httpResponse.EnsureSuccessStatusCode();
-            CommandSet.Out.WriteLine("CORS proxy check succeeded!");
+            await CommandSet.Out.WriteLineAsync("CORS proxy check succeeded!");
         }
         catch (HttpRequestException e)
         {
-            CommandSet.Out.WriteLine($"CORS Proxy Error ({e.StatusCode}: {e.Message}");
+            await CommandSet.Out.WriteLineAsync($"CORS Proxy Error ({e.StatusCode}: {e.Message}");
             if (!string.IsNullOrEmpty(_discordWebhookUri))
             {
                 DiscordWebhookClient discordWebhook = new(_discordWebhookUri);
